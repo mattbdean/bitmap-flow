@@ -1,0 +1,13 @@
+.container {
+    background-color: #388E3C;
+}
+
+.container h1 {
+    text-align: center;
+    margin: 1em;
+}
+
+.container a, .container a:active, .container a:visited {
+    text-decoration: none;
+    color: #FFFFFF;
+}

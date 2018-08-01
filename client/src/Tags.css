@@ -1,0 +1,9 @@
+.container {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.input-container {
+    margin-right: 7px;
+    margin-bottom: 7px;
+}

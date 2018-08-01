@@ -1,0 +1,12 @@
+
+:global(body) {
+    font-family: 'Ubuntu', sans-serif;
+}
+
+:global(body, #root) {
+    min-height: 100vh;
+}
+
+:global(*) {
+    box-sizing: border-box;
+}

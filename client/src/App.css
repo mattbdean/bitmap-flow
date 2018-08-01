@@ -1,0 +1,17 @@
+
+.container {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.05);
+    min-height: 100vh;
+}
+
+.board-container {
+    flex-grow: 1;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}

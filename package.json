@@ -1,0 +1,23 @@
+{
+  "name": "bitmap-flow",
+  "private": true,
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "workspaces": [
+    "client",
+    "server",
+    "shared"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "build:client": "webpack --config client/webpack.config.js",
+    "build:server": "yarn tsc -b server",
+    "dev": "yarn build:server && concurrently -k --raw \"nodemon dist\" \"yarn build:server -w\" \"yarn build:client -w\"",
+    "test:server": "jest --config server/jest.config.js",
+    "test:client": "jest --config client/jest/jest.config.js"
+  },
+  "devDependencies": {
+    "concurrently": "~3.5.1",
+    "tslint": "^5.11.0"
+  }
+}

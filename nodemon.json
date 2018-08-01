@@ -1,0 +1,6 @@
+{
+    "watch": ["dist/"],
+    "ignore": [
+        "dist/public/"
+    ]
+}

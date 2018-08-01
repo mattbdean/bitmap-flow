@@ -1,0 +1,12 @@
+
+.board {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+.no-more {
+    text-align: center;
+    margin: 60px 0;
+    color: rgba(0, 0, 0, 0.5);
+}

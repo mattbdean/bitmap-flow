@@ -1,0 +1,32 @@
+{
+  "name": "@bitmap-flow/server",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "@bitmap-flow/shared": "*",
+    "chalk": "^2.4.1",
+    "fs-extra": "^7.0.0",
+    "hapi": "^17.5.2",
+    "inert": "^5.1.0",
+    "joi": "^13.4.0",
+    "lodash": "^4.17.10",
+    "moment": "^2.22.2",
+    "mongodb": "3.1.1"
+  },
+  "devDependencies": {
+    "@types/chalk": "^2.2.0",
+    "@types/fs-extra": "^5.0.4",
+    "@types/hapi": "^17.0.15",
+    "@types/inert": "^5.1.1",
+    "@types/joi": "^13.4.0",
+    "@types/lodash": "^4.14.112",
+    "@types/moment": "^2.13.0",
+    "@types/mongodb": "^3.1.1",
+    "@types/node": "^10.5.2",
+    "node-sass": "^4.9.2",
+    "nodemon": "^1.18.3",
+    "source-map-support": "^0.5.6",
+    "ts-node": "^7.0.0",
+    "typescript": "~3.0.1"
+  }
+}

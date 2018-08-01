@@ -1,0 +1,57 @@
+.input-wrapper {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    background-color: rgb(255, 255, 255);
+    transition: box-shadow ease-out 0.1s;
+
+    display: flex;
+    align-items: baseline;
+}
+
+.input-wrapper:focus-within {
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.3);
+}
+
+.input {
+    padding: 8px;
+    margin: 0;
+    border: none;
+    flex-grow: 1;
+}
+
+.input:focus {
+    outline: none;
+}
+
+.delete-button {
+    color: rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: color 0.2s;
+    margin-right: 8px;
+}
+
+.delete-button:hover {
+    color: rgba(0, 0, 0, 1);
+}
+
+.option-container {
+    z-index: 1000;
+    position: absolute;
+    border: 1px solid rgba(0, 0, 0, 0.54);
+    border-top: none;
+}
+
+.option {
+    background: #FFFFFF;
+    padding: 5px;
+    cursor: pointer;
+    min-width: 150px;
+    transition: background-color 0.2s;
+}
+
+.option.highlighted, .option:hover {
+    background: #EAEAEA;
+}
+
+.option-matched {
+    font-weight: bold;
+}
