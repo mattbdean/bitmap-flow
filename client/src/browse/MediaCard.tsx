@@ -1,5 +1,6 @@
+import { Media } from '@bitmap-flow/shared/lib/api';
+import * as classNames from 'classnames';
 import * as React from 'react';
-import { Media } from '../../shared/src/api';
 
 // tslint:disable-next-line:no-var-requires
 const style = require('./MediaCard.css');
@@ -23,7 +24,7 @@ export class MediaCard extends React.Component<MediaCardProps, { loading: boolea
         );
 
         return (
-            <div className={style.card}>
+            <div className={classNames(style.card, 'raised')}>
                 <div className={style.imageContainer}>
                     <a href={`/api/v1/media/${this.props.media._id}/dl`}>
                         <img

@@ -1,7 +1,7 @@
 import { shallow, ShallowWrapper } from 'enzyme';
 import { sortBy } from 'lodash';
 import * as React from 'react';
-import { Autocomplete, AutocompleteProps, AutocompleteState } from '../src/Autocomplete';
+import { Autocomplete, AutocompleteProps, AutocompleteState } from '../Autocomplete';
 
 // I need to stop coding hungry
 const OPTIONS = [

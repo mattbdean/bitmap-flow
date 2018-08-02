@@ -2,7 +2,7 @@ import { Media, MediaFilters, PaginatedData } from '@bitmap-flow/shared/lib/api'
 import { isEqual } from 'lodash';
 import * as React from 'react';
 import * as InfiniteScroll from 'react-infinite-scroller';
-import { MediaApi } from './media-api';
+import { MediaApi } from '../core/media-api';
 import { MediaCard } from './MediaCard';
 
 // tslint:disable-next-line:no-var-requires

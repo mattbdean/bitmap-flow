@@ -1,7 +1,7 @@
 import * as classNames from 'classnames';
 import { isEqual, sortBy } from 'lodash';
 import * as React from 'react';
-import { measureText } from './util';
+import { measureText } from '../util';
 
 // tslint:disable-next-line:no-var-requires
 const styles = require('./Autocomplete.css');

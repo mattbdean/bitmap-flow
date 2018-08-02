@@ -10,6 +10,7 @@
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-infinite-scroller": "^1.2.0",
+    "react-router-dom": "^4.3.1",
     "whatwg-fetch": "^2.0.4"
   },
   "devDependencies": {
@@ -19,6 +20,8 @@
     "@types/react": "^16.4.7",
     "@types/react-dom": "^16.0.6",
     "@types/react-infinite-scroller": "^1.0.6",
+    "@types/react-router": "^4.0.30",
+    "@types/react-router-dom": "^4.3.0",
     "babel-core": "^6.26.3",
     "css-loader": "^1.0.0",
     "enzyme": "^3.3.0",

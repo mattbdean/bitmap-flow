@@ -1,8 +1,10 @@
+import { MediaFilters } from '@bitmap-flow/shared/lib/api';
+import * as classNames from 'classnames';
 import * as React from 'react';
-import { MediaFilters } from '../../shared/src/api/media-filters';
-import { Autocomplete } from './Autocomplete';
-import { MediaApi } from './media-api';
-import { Tags } from './Tags';
+import { Link } from 'react-router-dom';
+import { Autocomplete } from '../core/Autocomplete';
+import { MediaApi } from '../core/media-api';
+import { Tags } from '../core/Tags';
 
 // tslint:disable-next-line:no-var-requires
 const styles = require('./Filters.css');
@@ -57,6 +59,13 @@ export class Filters extends React.Component<FiltersProps, FiltersState> {
                 <div className={styles.spacer}></div>
 
                 { results }
+
+                <Link to='/upload'>
+                    <span
+                        title='Upload'
+                        className={classNames('fas', 'fa-plus', styles.uploadButton)}
+                    />
+                </Link>
             </div>
         );
     }
@@ -67,7 +76,6 @@ export class Filters extends React.Component<FiltersProps, FiltersState> {
     }
 
     private onTagsChange(tags: string[]) {
-        console.log(tags);
         this.setState({ tags }, () => this.emitChange());
     }
 

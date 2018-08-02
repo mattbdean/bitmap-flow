@@ -78,7 +78,9 @@ export class MediaDao {
     }
 
     public async sources(): Promise<string[]> {
-        return sortBy(await this.coll.distinct('source', {}), (s) => s.toLowerCase());
+        const sources = (await this.coll.distinct('source', {}))
+            .filter((s: string) => s !== null);
+        return sortBy(sources, (s) => s.toLowerCase());
     }
 
     public async identifyMissing(storage: Storage<any>): Promise<ObjectID[]> {
