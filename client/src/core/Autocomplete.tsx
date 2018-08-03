@@ -260,13 +260,15 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
                 showOptions: false
             });
         } else if (!this.state.showOptions) {
-                // We're typing but not showing options. This happens when 
+            // We're typing but not showing options. This happens when the
+            // user has chosen a value with the mouse or arrow keys/enter
+            // then starts typing again
             this.setState({
                 showOptions: true
             });
         }
 
-        if (userTypedOption && this.props.onOptionPicked)
+        if ((userTypedOption || value === '') && this.props.onOptionPicked)
             this.props.onOptionPicked(value);
     }
 
