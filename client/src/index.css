@@ -14,3 +14,11 @@
 :global(.raised) {
     box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.2);
 }
+
+:global(.button) {
+    padding: 8px;
+    margin: 20px;
+    cursor: pointer;
+    background: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+}

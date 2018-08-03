@@ -1,5 +1,8 @@
 import * as React from 'react';
 import { MediaApi } from '../core/media-api';
+import { UploadData } from '../core/upload-data';
+import { ActiveUpload } from './active-upload';
+import { UploadPreview } from './UploadPreview';
 
 // tslint:disable-next-line:no-var-requires
 const styles = require('./Upload.css');
@@ -18,7 +21,7 @@ export class Upload extends React.Component<{}, UploadState> {
     public render() {
         return (
             <div className={styles.container}>
-                <label className={styles.button}>
+                <label className='button'>
                     <input
                         type='file'
                         accept='image/png, image/jpeg'
@@ -26,19 +29,11 @@ export class Upload extends React.Component<{}, UploadState> {
                     />
                     Pick a file
                 </label>
-                { this.state.activeUpload ? (
-                    <div className='raised'>
-                        <img src={this.state.activeUpload.src} />
-                    </div>
-                ) : null }
-                { this.state.activeUpload ? (
-                    <span
-                        className={styles.button}
-                        onClick={() => this.handleUpload()}
-                    >
-                        Upload
-                    </span>
-                ) : null }
+
+                { this.state.activeUpload ? <UploadPreview
+                    upload={this.state.activeUpload}
+                    onFinish={(conf) => this.handleUpload(conf)}
+                /> : null }
             </div>
         );
     }
@@ -57,10 +52,8 @@ export class Upload extends React.Component<{}, UploadState> {
         });
     }
 
-    private handleUpload() {
-        this.api.upload({
-            file: this.state.activeUpload!.file
-        }).then(() => {
+    private handleUpload(data: UploadData) {
+        this.api.upload(data).then(() => {
             this.setState({
                 activeUpload: undefined
             });
@@ -69,8 +62,5 @@ export class Upload extends React.Component<{}, UploadState> {
 }
 
 interface UploadState {
-    activeUpload?: {
-        src: string;
-        file: File
-    };
+    activeUpload?: ActiveUpload;
 }

@@ -1,4 +1,5 @@
 import { Media, PaginatedData } from '@bitmap-flow/shared/lib/api';
+import { UploadData } from './upload-data';
 
 export class MediaApi {
     private basePath: string;
@@ -29,11 +30,7 @@ export class MediaApi {
         return this.get('/media/sources');
     }
 
-    public upload(opts: {
-        file: File,
-        tags?: string[],
-        source?: string
-    }): Promise<Media> {
+    public upload(opts: UploadData): Promise<Media> {
         const form = new FormData();
         form.append('file', opts.file, opts.file.name);
         if (opts.tags && opts.tags.length > 0)

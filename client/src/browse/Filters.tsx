@@ -58,14 +58,16 @@ export class Filters extends React.Component<FiltersProps, FiltersState> {
 
                 <div className={styles.spacer}></div>
 
-                { results }
+                <div className={styles.infoContainer}>
+                    { results }
 
-                <Link to='/upload'>
-                    <span
-                        title='Upload'
-                        className={classNames('fas', 'fa-plus', styles.uploadButton)}
-                    />
-                </Link>
+                    <Link to='/upload'>
+                        <span
+                            title='Upload'
+                            className={classNames('fas', 'fa-plus', styles.uploadButton)}
+                        />
+                    </Link>
+                </div>
             </div>
         );
     }

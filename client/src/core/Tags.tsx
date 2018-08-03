@@ -6,6 +6,10 @@ import { Autocomplete } from './Autocomplete';
 const styles = require('./Tags.css');
 
 export class Tags extends React.Component<TagsProps, TagsState> {
+    public static defaultProps: Partial<TagsProps> = {
+        allowNewTags: false
+    };
+
     public constructor(props: TagsProps) {
         super(props); 
 
@@ -28,8 +32,8 @@ export class Tags extends React.Component<TagsProps, TagsState> {
                         value={item ? item.value : ''}
                         options={this.props.options}
                         highlightMatches={true}
-                        onValueChange={(value) => this.updateValue(index, value)}
-                        onOptionPicked={(value) => this.valueChosen(index, value)}
+                        onValueChange={(value) => this.handleValueChange(index, value)}
+                        onOptionPicked={(value) => this.handleOptionPicked(index, value)}
                         onDeleteRequested={() => this.delete(index)}
                         placeholder='Tag'
                         deleteAction='requestDeletion'
@@ -60,27 +64,30 @@ export class Tags extends React.Component<TagsProps, TagsState> {
         }
     }
 
-    private updateValue(index: number, text: string) {
+    private handleValueChange(index: number, text: string) {
         const newValue = this.state.value.slice();
+
+        // If we're only allowing existing tags, we won't know if this tag is
+        // valid until handleOptionPicked is called
+        const valid = this.props.allowNewTags ? text.length > 0 : false;
 
         if (index === this.state.value.length) {
             // Entered data into the last input
             newValue.push({
                 value: text,
-                valid: false,
+                valid,
                 ref: React.createRef()
             });
         } else {
             // Updated older value
             newValue[index].value = text;
-            // Won't know if it's valid until valueChosen() gets called
-            newValue[index].valid = false;
+            newValue[index].valid = valid;
         }
 
         this.setState({ value: newValue }, () => this.emitValidTags());
     }
 
-    private valueChosen(index: number, value: string) {
+    private handleOptionPicked(index: number, value: string) {
         const newValue = this.state.value.slice();
 
         if (index >= this.state.value.length) {
@@ -115,6 +122,7 @@ export class Tags extends React.Component<TagsProps, TagsState> {
 
 interface TagsProps {
     options: string[] | Promise<string[]>;
+    allowNewTags?: boolean;
     onChange?: (tags: string[]) => void;
 }
 

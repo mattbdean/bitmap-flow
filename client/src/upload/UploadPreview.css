@@ -1,0 +1,29 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    flex-grow: 1;
+}
+
+.container img {
+    object-fit: contain;
+    max-width: 100%;
+    max-height: 500px;
+}
+
+.spacer {
+    flex-grow: 1;
+}
+
+.button {
+    padding: 8px;
+    margin: 20px;
+    cursor: pointer;
+    background: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.metadata-wrapper {
+    margin: 10px;
+}
