@@ -26,11 +26,9 @@ export class Fullscreen extends React.Component<FullscreenProps> {
                 <p className={styles.info}>
                     { this.props.index + 1 } of { this.props.media.length }
                 </p>
-                <div className={styles.imageContainer}>
-                    <img
-                        src={`/api/v1/media/${this.props.media[this.props.index]._id}/dl`}
-                    />
-                </div>
+                <img
+                    src={`/api/v1/media/${this.props.media[this.props.index]._id}/dl`}
+                />
             </div>
         );
     }
@@ -47,7 +45,6 @@ export class Fullscreen extends React.Component<FullscreenProps> {
     }
 
     private handleKeyPress(event: React.KeyboardEvent) {
-        console.log(event.keyCode);
         if (event.keyCode === 27) {
             event.preventDefault();
             if (this.props.onCloseRequested)
