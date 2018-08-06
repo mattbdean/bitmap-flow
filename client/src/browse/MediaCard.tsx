@@ -7,6 +7,7 @@ const style = require('./MediaCard.css');
 
 export interface MediaCardProps {
     media: Media;
+    onClick?: () => void;
 }
 
 export class MediaCard extends React.Component<MediaCardProps, { loading: boolean }> {
@@ -26,13 +27,12 @@ export class MediaCard extends React.Component<MediaCardProps, { loading: boolea
         return (
             <div className={classNames(style.card, 'raised')}>
                 <div className={style.imageContainer}>
-                    <a href={`/api/v1/media/${this.props.media._id}/dl`}>
-                        <img
-                            className={this.state.loading ? style.loading : ''}
-                            src={`/api/v1/media/${this.props.media._id}/dl`}
-                            onLoad={ () => this.onImageLoad() }
-                        />
-                    </a>
+                    <img
+                        className={this.state.loading ? style.loading : ''}
+                        src={`/api/v1/media/${this.props.media._id}/dl`}
+                        onLoad={ () => this.handleImageLoad() }
+                        onClick={ () => this.handleClick() }
+                    />
                 </div>
                 <div className={style.info}>
                     <span
@@ -47,7 +47,12 @@ export class MediaCard extends React.Component<MediaCardProps, { loading: boolea
         );
     }
 
-    private onImageLoad() {
+    private handleImageLoad() {
         this.setState({ loading: false });
+    }
+
+    private handleClick() {
+        if (this.props.onClick)
+            this.props.onClick();
     }
 }

@@ -86,8 +86,8 @@ export function api(dao: MediaDao, storage: Storage<any>): ServerRoute[] {
             options: {
                 payload: {
                     allow: 'multipart/form-data',
-                    // 1MB max
-                    maxBytes: 1 * Math.pow(2, 20)
+                    // 5MB max
+                    maxBytes: 5 * Math.pow(2, 20)
                 },
                 validate: {
                     payload: {

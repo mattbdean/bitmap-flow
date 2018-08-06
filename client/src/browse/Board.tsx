@@ -3,6 +3,7 @@ import { isEqual } from 'lodash';
 import * as React from 'react';
 import * as InfiniteScroll from 'react-infinite-scroller';
 import { MediaApi } from '../core/media-api';
+import { Fullscreen } from './Fullscreen';
 import { MediaCard } from './MediaCard';
 
 // tslint:disable-next-line:no-var-requires
@@ -25,7 +26,8 @@ export class Board extends React.Component<BoardProps, BoardState> {
             hasMore: true,
             page: 1,
             total: 0,
-            pageStatus: {}
+            pageStatus: {},
+            fullscreenPageIndex: -1
         };
     }
 
@@ -39,14 +41,25 @@ export class Board extends React.Component<BoardProps, BoardState> {
 
         return (
             <div>
+                { this.state.fullscreenPageIndex >= 0 ? <Fullscreen
+                    media={this.state.media}
+                    index={this.state.fullscreenPageIndex}
+                    onCloseRequested={() => this.setState({ fullscreenPageIndex: -1 })}
+                    onIndexChange={(i) => this.setState({ fullscreenPageIndex: i })}
+                /> : null }
                 <InfiniteScroll
                     className={styles.board}
                     pageStart={1}
                     loadMore={() => this.loadNextPage()}
                     hasMore={this.state.hasMore}
                 >
-                    {this.state.media.map((m) =>
-                        <MediaCard media={m} key={m._id as string} />)}
+                    {this.state.media.map((m, index) =>
+                        <MediaCard
+                            media={m}
+                            key={m._id as string}
+                            onClick={() => this.setState({ fullscreenPageIndex: index })}
+                        />
+                    )}
                 </InfiniteScroll>
 
                 { message === null ? null : <p className={styles.noMore}>{ message }</p> }
@@ -99,10 +112,6 @@ export class Board extends React.Component<BoardProps, BoardState> {
             });
         });
     }
-
-    private onCardClicked(m: Media) {
-        window.open(`${window.location.origin}/api/v1/media/${m._id}/dl`, '_blank');
-    }
 }
 
 interface BoardState {
@@ -123,6 +132,8 @@ interface BoardState {
      * the first page is either loaded or is currently loading.
      */
     pageStatus: { [page: number]: boolean };
+
+    fullscreenPageIndex: number;
 }
 
 interface BoardProps {
