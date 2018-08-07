@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import * as Hapi from 'hapi';
 import * as inert from 'inert';
-import { orderBy } from 'lodash';
+import * as _ from 'lodash';
 import { MongoClient } from 'mongodb';
 import * as path from 'path';
 import { MediaDao } from './db/media.dao';
@@ -94,11 +94,13 @@ function getRoutes(server: Hapi.Server): Array<{ verb: string, path: string }> {
 }
 
 function logRoutes(server: Hapi.Server) {
-    const routes = orderBy(getRoutes(server), ['path', 'verb'], ['asc', 'asc']);
+    const routes = _.orderBy(getRoutes(server), ['path', 'verb'], ['asc', 'asc']);
 
     console.log('Available routes:\n');
+    const maxVerbLength = _(routes).map((r) => r.verb.length).max()!;
     for (const route of routes) {
-        console.log(chalk.bold(`  ${route.verb} ${route.path}`));
+        const verb = route.verb + ' '.repeat(maxVerbLength - route.verb.length);
+        console.log(chalk.bold(`  ${verb} `) + route.path);
     }
     console.log();
 }
