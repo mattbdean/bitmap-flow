@@ -1,3 +1,4 @@
+import { Media } from '@bitmap-flow/shared/lib/api';
 import { ObjectID } from 'bson';
 import * as fs from 'fs-extra';
 import { Server, ServerRoute } from 'hapi';
@@ -77,10 +78,11 @@ export function api(dao: MediaDao, storage: Storage<any>): ServerRoute[] {
             path: '/api/v1/media',
             handler: (req, h) => {
                 const payload = req.payload as any;
+                const tags = parseCsvLine(payload.tags);
                 return dao.upload({
                     data: payload.file,
                     storage,
-                    tags: parseCsvLine(payload.tags),
+                    tags: tags === undefined ? [] : tags,
                     source: payload.source
                 });
             },
@@ -114,6 +116,31 @@ export function api(dao: MediaDao, storage: Storage<any>): ServerRoute[] {
             }
         },
         {
+            method: 'PATCH',
+            path: '/api/v1/media/{id}',
+            handler: async (req, h) => {
+                const body: { source?: string, tags?: string } = req.payload as any;
+
+                const updatedDoc: Media | null = await dao.patch(req.params.id, {
+                    tags: parseCsvLine(body.tags),
+                    source: body.source
+                });
+
+                if (updatedDoc)
+                    return h.response(updatedDoc).code(200);
+                else
+                    return h.response({ error: 'Not Found' }).code(404);
+            },
+            options: {
+                validate: {
+                    payload: {
+                        source: Joi.string().max(100),
+                        tags: Joi.string().min(0).max(1000)
+                    }
+                }
+            }
+        },
+        {
             method: 'GET',
             path: '/api/v1/media/tags',
             handler: (req, h) => dao.tags()
@@ -126,9 +153,9 @@ export function api(dao: MediaDao, storage: Storage<any>): ServerRoute[] {
     ];
 }
 
-function parseCsvLine(data?: string): string[] {
+function parseCsvLine(data?: string): string[] | undefined {
     if (data === undefined)
-        return [];
+        return undefined;
 
     return data.split(',').map((el: string) => el.trim());
 }

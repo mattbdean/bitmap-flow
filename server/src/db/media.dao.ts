@@ -86,6 +86,38 @@ export class MediaDao {
         await storage.delete(media.upload.id);
     }
 
+    /**
+     * Updates malleable parts of some Media. Only specified properties will be
+     * updated, e.g.
+     * 
+     *     patch(id, { source: 'some_source' })
+     * 
+     * will not update the tags.
+     */
+    public async patch(id: string, data: { tags?: string[], source?: string }): Promise<Media | null> {
+        const { tags, source } = data;
+
+        const update: Partial<Media> = {
+            editedAt: new Date()
+        };
+
+        if (tags && tags.length > 0)
+            update.tags = tags;
+        if (source !== undefined)
+            update.source = source.length === 0 ? null : source;
+        
+        // Only editedAt was specified, nothing to do
+        if (Object.keys(update).length === 1)
+            return null;
+
+        const result = await this.coll.findOneAndUpdate(
+            { _id: new ObjectID(id) },
+            { $set: update },
+            { returnOriginal: false }
+        );
+        return result.value ? result.value : null;
+    }
+
     public async tags(): Promise<string[]> {
         return sortBy(await this.coll.distinct('tags', {}), (tag) => tag.toLowerCase());
     }
