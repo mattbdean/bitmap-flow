@@ -1,3 +1,4 @@
+import { ObjectID } from 'bson';
 import * as fs from 'fs-extra';
 import { Server, ServerRoute } from 'hapi';
 import * as Joi from 'joi';
@@ -96,6 +97,20 @@ export function api(dao: MediaDao, storage: Storage<any>): ServerRoute[] {
                         source: Joi.string().default(null)
                     }
                 }
+            }
+        },
+        {
+            method: 'DELETE',
+            path: '/api/v1/media/{id}',
+            handler: async (req, h) => {
+                const media = await dao.byId(req.params.id);
+                if (media === null)
+                    return h.response({ error: 'Not Found' }).code(404);
+
+                await dao.delete((media._id as ObjectID).toHexString(), storage);
+
+                // 204 No Content
+                return h.response().code(204);
             }
         },
         {

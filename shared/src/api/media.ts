@@ -16,4 +16,5 @@ export interface Media {
     fromUrl: string | null;
     upload: UploadSummary<any>;
     uploadedAt: Date;
+    editedAt: Date;
 }

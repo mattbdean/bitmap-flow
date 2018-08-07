@@ -42,7 +42,8 @@ export class MediaDao {
             extension: meta.extension,
             format: meta.format,
             upload: summary,
-            uploadedAt: new Date()
+            uploadedAt: new Date(),
+            editedAt: new Date()
         };
         const insertResult = await this.coll.insertOne(media);
         return insertResult.ops[0];
@@ -74,6 +75,15 @@ export class MediaDao {
     public async count(filters: MediaFilters = {}): Promise<number> {
         // TODO(mattbdean) Could become slow when dealing with a lot of images
         return this.coll.countDocuments(MediaDao.createQuery(filters), undefined);
+    }
+
+    public async delete(id: string, storage: Storage<any>): Promise<void> {
+        const result = await this.coll.findOneAndDelete({ _id: new ObjectID(id) });
+        if (result.value === undefined)
+            throw new Error('No such document with ID ' + id);
+        
+        const media: Media = result.value;
+        await storage.delete(media.upload.id);
     }
 
     public async tags(): Promise<string[]> {
