@@ -2,10 +2,13 @@ import { Media, MediaFilters, PaginatedData } from '@bitmap-flow/shared/lib/api'
 import * as crypto from 'crypto';
 import { sortBy } from 'lodash';
 import { Collection, ObjectID } from 'mongodb';
+import { MediaHelper } from '../media-helper';
 import { Storage } from '../storage/storage';
 
 export class MediaDao {
     public static readonly DEFAULT_LIMIT = 25;
+
+    private mediaHelper = new MediaHelper();
 
     public constructor(private coll: Collection) {}
 
@@ -20,7 +23,7 @@ export class MediaDao {
         source: string | null
     }): Promise<Media> {
         const { data, storage, tags, source } = opts;
-        const meta = await Storage.signature(data);
+        const meta = await this.mediaHelper.signature(data);
 
         // TODO(mattbdean): compress and check for duplicates if image
 

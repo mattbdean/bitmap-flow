@@ -1,7 +1,6 @@
 import * as crypto from 'crypto';
 import * as fs from 'fs-extra';
 import * as path from 'path';
-import { UploadSummary } from '../../../shared/lib/api/upload-summary';
 import { Storage } from './storage';
 
 export class FsStorage extends Storage<'fs'> {
@@ -10,19 +9,6 @@ export class FsStorage extends Storage<'fs'> {
     }
 
     public get type(): 'fs' { return 'fs'; }
-
-    public async upload(data: Buffer): Promise<UploadSummary<'fs'>> {
-        const id = crypto.randomBytes(5).toString('hex');
-
-        await fs.mkdirp(this.baseDir);
-
-        await fs.writeFile(this.filePath(id), data, 'binary');
-        
-        return {
-            type: this.type,
-            id
-        };
-    }
 
     public async read(id: string): Promise<Buffer> {
         // TODO(mattbdean): Validate `id` to make sure it's only alphanumeric
@@ -40,6 +26,15 @@ export class FsStorage extends Storage<'fs'> {
 
     public delete(uploadId: string): Promise<void> {
         return fs.unlink(this.filePath(uploadId));
+    }
+
+    protected async doUpload(data: Buffer): Promise<string> {
+        const id = crypto.randomBytes(5).toString('hex');
+
+        await fs.mkdirp(this.baseDir);
+        await fs.writeFile(this.filePath(id), data, 'binary');
+        
+        return id;
     }
 
     private async safeStats(location: string): Promise<fs.Stats | null> {

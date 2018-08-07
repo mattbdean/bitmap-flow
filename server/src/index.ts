@@ -2,12 +2,11 @@ import chalk from 'chalk';
 import * as Hapi from 'hapi';
 import * as inert from 'inert';
 import { orderBy } from 'lodash';
-import * as moment from 'moment';
 import { MongoClient } from 'mongodb';
 import * as path from 'path';
 import { MediaDao } from './db/media.dao';
 import { api, singlePageApp } from './routes';
-import { FsStorage } from './storage/fs-storage';
+import { GridFsStorage } from './storage/gridfs-storage';
 
 // tslint:disable:no-console
 
@@ -44,7 +43,7 @@ async function mongoConnect(): Promise<MongoClient> {
         const db = client.db('bitmap-flow');
         const media = new MediaDao(db.collection('media'));
 
-        const storage = new FsStorage(path.resolve(__dirname, '__media'));
+        const storage = new GridFsStorage(db);
 
         // Remove documents in Mongo that don't have a file associated with it
         const missingIds = await media.identifyMissing(storage);
@@ -102,8 +101,4 @@ function logRoutes(server: Hapi.Server) {
         console.log(chalk.bold(`  ${route.verb} ${route.path}`));
     }
     console.log();
-}
-
-function now() {
-    return moment().format('H:mm:ss.SSS A');
 }
